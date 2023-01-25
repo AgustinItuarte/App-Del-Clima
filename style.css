@@ -1,8 +1,25 @@
+@font-face {
+    font-family: JosefinSans;
+    src: url(font/JosefinSans-VariableFont_wght.ttf);
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+    font-family: JosefinSans;
+    font-weight: bold;
+    color: white;
+}
+
 body {
     height: 100vh;
+    width: 100vw;
     margin: 0;
     padding: 0;
-    background-color: gray;
+    background-image: url(img/pexels-konevi-1335115.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
 .container {
@@ -20,18 +37,23 @@ header {
     justify-content: center;
 }
 
-.left-content {
-    background-color: blue;
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
+.left-content,
+.right-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     height: 100%;
+    border: 1px solid black;
+}
+
+.left-content {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    
 }
 
 .right-content {
-    background-color: red;
-    width: 100%;
-    height: 100%;
 }
 
 footer {
