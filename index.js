@@ -1,8 +1,19 @@
-async function chequearClima() {
+const btn = document.querySelector('button')
+
+btn.addEventListener('click', () => {
+
+    let input = document.querySelector('input');
+    let localidad = input.value;
+    console.log(localidad)
+    chequearClima(localidad);
+
+})
+
+async function chequearClima(localidad) {
 
     try {
 
-        let response = await fetch('https://api.openweathermap.org/data/2.5/weather?q=montevideo&APPID=3c086de3e37296dfa889363093719c81')
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${localidad}&APPID=3c086de3e37296dfa889363093719c81`)
         let clima = await response.json()
         
         console.log(clima)
@@ -25,10 +36,20 @@ function pupulateRightContent(clima) {
     const opcion_3 = document.querySelector('.tiempo-3')
     const opcion_4 = document.querySelector('.tiempo-4')
 
-    let contenido_1 = document.createElement('p');
-    let contenido_2 = document.createElement('p');
-    let contenido_3 = document.createElement('p');
-    let contenido_4 = document.createElement('p');
+    opcion_1.innerHTML = ''
+    opcion_2.innerHTML = ''
+    opcion_3.innerHTML = ''
+    opcion_4.innerHTML = ''
+
+    opcion_1.innerHTML = 'Se Siente'
+    opcion_2.innerHTML = 'Humedad'
+    opcion_3.innerHTML = 'Chance de Lluvia'
+    opcion_4.innerHTML = 'Viento'
+
+    let contenido_1 = document.createElement('h1');
+    let contenido_2 = document.createElement('h1');
+    let contenido_3 = document.createElement('h1');
+    let contenido_4 = document.createElement('h1');
     
     contenido_1.textContent = `${clima.main.feels_like}`
     contenido_2.textContent = `${clima.main.humidity}`
@@ -46,6 +67,8 @@ function pupulateLeftContent(clima) {
     
     const left_content = document.querySelector('.left-content')
 
+    left_content.innerHTML = ''
+
     let contenido_1 = document.createElement('h1');
     let contenido_2 = document.createElement('h3');
     let contenido_3 = document.createElement('h1');
@@ -60,4 +83,4 @@ function pupulateLeftContent(clima) {
 
 }
 
-chequearClima();
+chequearClima('montevideo');
