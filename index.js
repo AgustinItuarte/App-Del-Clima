@@ -1,4 +1,7 @@
-const btn = document.querySelector('button')
+const btn = document.querySelector('.btn-buscar')
+const btn_celsius = document.querySelector('.btn-celsius')
+const btn_farengheit = document.querySelector('.btn-farengheit')
+
 
 btn.addEventListener('click', () => {
 
@@ -9,11 +12,23 @@ btn.addEventListener('click', () => {
 
 })
 
+btn_celsius.addEventListener('click', () => {
+
+    farengheitToCelsius();
+
+})
+
+btn_farengheit.addEventListener('click', () => {
+
+    celsiusToFarengheit();
+
+})
+
 async function chequearClima(localidad) {
 
     try {
 
-        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${localidad}&APPID=3c086de3e37296dfa889363093719c81`)
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${localidad}&id=524901&lang=es&appid=3c086de3e37296dfa889363093719c81`)
         let clima = await response.json()
         
         console.log(clima)
@@ -56,18 +71,24 @@ function pupulateRightContent(clima) {
 
     opcion_1.innerHTML += 'Se Siente'
     opcion_2.innerHTML += 'Humedad'
-    opcion_3.innerHTML += 'Chance de Lluvia'
+    opcion_3.innerHTML += 'Presion Atmosferica'
     opcion_4.innerHTML += 'Viento'
 
     let contenido_1 = document.createElement('h1');
     let contenido_2 = document.createElement('h1');
     let contenido_3 = document.createElement('h1');
     let contenido_4 = document.createElement('h1');
+
+    contenido_1.className = 'temp-right'
     
-    contenido_1.textContent = `${clima.main.feels_like}`
+    contenido_1.textContent = `${Math.round(clima.main.feels_like - 273)}`
     contenido_2.textContent = `${clima.main.humidity}`
     contenido_3.textContent = `${clima.main.pressure}`
     contenido_4.textContent = `${clima.wind.speed}`
+    contenido_1.textContent += ' ºC'
+    contenido_2.textContent += ' %'
+    contenido_3.textContent += ' hPa'
+    contenido_4.textContent += ' m/s'
 
     opcion_1.appendChild(contenido_1);
     opcion_2.appendChild(contenido_2);
@@ -95,13 +116,66 @@ function pupulateLeftContent(clima) {
     contenido_1.textContent = `${clima.weather[0].description}`
     contenido_2.textContent = `${clima.name}`
     contenido_3.textContent = date
-    contenido_4.textContent = `${clima.main.temp}`
+    contenido_4.textContent = `${Math.round(clima.main.temp - 273)}`
+    contenido_4.textContent += ' ºC'
 
     left_content.appendChild(contenido_1);
     left_content.appendChild(contenido_2);
     left_content.appendChild(contenido_3);
     left_content.appendChild(contenido_4);
 
+}
+
+function celsiusToFarengheit() {
+
+    let temp_left = document.querySelector('.temp');
+    let temp_right = document.querySelector('.temp-right');
+
+    if (temp_left.textContent.includes('C')) {
+
+        let temperatura_1 = temp_left.textContent[0] + temp_left.textContent[1];
+        let temperatura_2 = temp_right.textContent[0] + temp_right.textContent[1];
+
+        temp_left.textContent = '';
+        temp_right.textContent = '';
+
+        let new_temp_left = parseInt(temperatura_1) * 9 / 5 + 32;
+        let new_temp_right = parseInt(temperatura_2) * 9 / 5 + 32;
+
+        temp_left.textContent = Math.round(new_temp_left);
+        temp_right.textContent = Math.round(new_temp_right);
+
+        temp_left.textContent += ' ºF';
+        temp_right.textContent += ' ºF';
+
+    }
+    
+}
+
+function farengheitToCelsius() {
+
+    let temp_left = document.querySelector('.temp');
+    let temp_right = document.querySelector('.temp-right');
+
+    if (temp_left.textContent.includes('F')) {
+
+        let temperatura_1 = temp_left.textContent[0] + temp_left.textContent[1];
+        let temperatura_2 = temp_right.textContent[0] + temp_right.textContent[1];
+
+        temp_left.textContent = '';
+        temp_right.textContent = '';
+
+        let new_temp_left = ((parseInt(temperatura_1) - 32) * 5) / 9;
+        let new_temp_right = ((parseInt(temperatura_2) - 32) * 5) / 9;
+
+        temp_left.textContent = Math.round(new_temp_left);
+        temp_right.textContent = Math.round(new_temp_right);
+
+        temp_left.textContent += ' ºC';
+        temp_right.textContent += ' ºC';
+
+    }
+    
 }
 
 chequearClima('montevideo');
