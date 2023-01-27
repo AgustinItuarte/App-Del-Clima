@@ -107,6 +107,8 @@ function pupulateLeftContent(clima) {
     let contenido_2 = document.createElement('li');
     let contenido_3 = document.createElement('li');
     let contenido_4 = document.createElement('li');
+    let contenido_5 = document.createElement('li');
+    let img = document.createElement('img');
     let date = new Date();
 
     contenido_1.className = 'estado'
@@ -119,10 +121,14 @@ function pupulateLeftContent(clima) {
     contenido_4.textContent = `${Math.round(clima.main.temp - 273)}`
     contenido_4.textContent += ' ºC'
 
+    img.src = `http://openweathermap.org/img/wn/${clima.weather[0].icon}@2x.png`
+
+    contenido_5.appendChild(img);
     left_content.appendChild(contenido_1);
     left_content.appendChild(contenido_2);
     left_content.appendChild(contenido_3);
     left_content.appendChild(contenido_4);
+    left_content.appendChild(contenido_5);
 
 }
 
